@@ -2,8 +2,8 @@
 function Firework(){
     this.hue = random(255);
     this.firework = new Particle(random(20, width - 20), height, this.hue, true);
+    this.explosion;
     this.hasExploded = false;
-    this.particles = [];
     this.lifespan = 255;
     this.initVel = this.firework.vel
     this.reachedPeak = false;
@@ -31,36 +31,28 @@ function Firework(){
                 // explode
                 this.hasExploded = true;
                 this.explode();
-            }
-            
-            
-        }
-        for(var i = this.particles.length - 1; i >= 0; i--){
-            this.particles[i].applyForce(gravity);
-            this.particles[i].update();
-            if(this.particles[i].isDead()){
-                this.particles.splice(i, 1);
-            }
+            }            
+        } else {
+            this.explosion.update();
         }
     }
     
     this.show = function() {
         if(!this.hasExploded){
             this.firework.show();
+        } else {
+            this.explosion.show();
         }
-        for(var i = 0; i < this.particles.length; i++){
-            this.particles[i].show();
-        }
+        
     }
     
     this.explode = function(){
-        for(var i = 0; i < 100; i++){
-            this.particles.push(new Particle(this.firework.pos.x, this.firework.pos.y, this.hue));
-        }
+        this.explosion = new Explosion(this.firework.pos.x, this.firework.pos.y, this.firework.hue);
+        this.explosion.explode();
     }
     
     this.isDone = function(){
-        return this.hasExploded && this.particles.length == 0;
+        return this.hasExploded && this.explosion.isDone();
     }
     
 }
