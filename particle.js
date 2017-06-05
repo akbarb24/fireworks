@@ -40,7 +40,7 @@ function Particle(x, y, hue, isFirework) {
         colorMode(HSB);
         if(!this.isFirework){
             strokeWeight(2);
-            stroke(this.hue * (this.lifespan /255), this.lifespan, this.lifespan, this.lifespan);
+            stroke(this.hue, this.lifespan, this.lifespan, this.lifespan);
         } else {
             strokeWeight(4);
             stroke(this.hue, 255, 255);
